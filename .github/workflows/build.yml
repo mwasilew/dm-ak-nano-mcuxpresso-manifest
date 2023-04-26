@@ -22,6 +22,11 @@ jobs:
         run: |
           west init -l .
           west update
+      - name: Show directories
+#        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
+        run: |
+          tree .
+
       - name: Build firmware
 #        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
         run: |
