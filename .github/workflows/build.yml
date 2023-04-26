@@ -30,12 +30,10 @@ jobs:
           ./build_flexspi_nor_release.sh
 
       - name: Install python dependencies
-        working-directory: ./
         run: |
           python3 -m pip install requests
 
       - name: Submit test jobs
-        working-directory: ./
         run: |
           python3 .github/workflows/submit_job.py \
               --qa-server https://qa-reports.foundries.io/api \
