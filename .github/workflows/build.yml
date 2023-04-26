@@ -23,7 +23,7 @@ jobs:
           west init -l .
           west update
       - name: Build firmware
-        working-directory: manifest/foundriesio/dm-ak-nano-mcuxpresso/armgcc
+        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
         run: |
           ./build_flexspi_nor_release.sh
 
