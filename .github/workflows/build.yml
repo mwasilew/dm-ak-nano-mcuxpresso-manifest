@@ -18,23 +18,26 @@ jobs:
         with:
           path: ./
 
-      - name: Build
-        working-directory: ./
-        run: |
-          west init -l .
-          west update
-          export MANIFEST_HASH=$(git -C ./poc log --format=%H -n 1)
-          echo "MANIFEST_HASH=" >> $GITHUB_ENV
-          ln -sfn dm-ak-nano-mcuxpresso-manifest ../poc
-          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
-          ./build_flexspi_nor_release.sh
+#      - name: Build
+#        working-directory: ./
+#        run: |
+#          west init -l .
+#          west update
+#          export MANIFEST_HASH=$(git -C ./poc log --format=%H -n 1)
+#          echo "MANIFEST_HASH=" >> $GITHUB_ENV
+#          ln -sfn dm-ak-nano-mcuxpresso-manifest ../poc
+#          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
+#          ./build_flexspi_nor_release.sh
 
       - name: Install python dependencies
         run: |
           python3 -m pip install requests
 
       - name: Submit test jobs
+        working-directory: ./
         run: |
+          ls -la
+          pwd
           python3 .github/workflows/submit_job.py \
               --qa-server https://qa-reports.foundries.io/api \
               --qa-team "~milosz" \
