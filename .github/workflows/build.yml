@@ -14,21 +14,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-#        with:
-#          path: manifest
+        with:
+          path: manifest
 
       - name: Initialize
-#        working-directory: manifest
+        working-directory: manifest
         run: |
           west init -l .
           west update
       - name: Show directories
-#        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
+        working-directory: manifest
         run: |
-          ls -l
+          ls -la
 
       - name: Build firmware
-#        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
+        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
         run: |
           cd foundriesio/dm-ak-nano-mcuxpresso/armgcc && \
           ./build_flexspi_nor_release.sh
