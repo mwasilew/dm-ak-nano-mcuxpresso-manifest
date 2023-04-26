@@ -36,18 +36,19 @@ jobs:
       - name: Submit test jobs
         working-directory: ./
         run: |
-          ls -la
-          pwd
-          python3 .github/workflows/submit_job.py \
-              --qa-server https://qa-reports.foundries.io/api \
-              --qa-team "~milosz" \
-              --qa-project mcu \
-              --qa-version "${MANIFEST_HASH}" \
-              --qa-environment mimxrt1170_cm7 \
-              --qa-backend lava.infra.foundries.io \
-              --job-filename .github/workflows/job_templates/mimxrt1170.yaml \
-              --qa-patch-source mwasilew-github-aknano-manifest \
-              --commit-id "${MANIFEST_HASH}" \
-              --commit-repository dm-ak-nano-mcuxpresso-manifest  \
-              --commit-repository-user mwasilew
+          for FILE in .github/workflows/job_templates/*; \
+          do
+            python3 .github/workflows/submit_job.py \
+                --qa-server https://qa-reports.foundries.io/api \
+                --qa-team "~milosz" \
+                --qa-project mcu \
+                --qa-version "${MANIFEST_HASH}" \
+                --qa-environment mimxrt1170_cm7 \
+                --qa-backend lava.infra.foundries.io \
+                --job-filename "${FILE}" \
+                --qa-patch-source mwasilew-github-aknano-manifest \
+                --commit-id "${MANIFEST_HASH}" \
+                --commit-repository dm-ak-nano-mcuxpresso-manifest  \
+                --commit-repository-user mwasilew
+          done
 
