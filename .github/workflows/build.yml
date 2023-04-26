@@ -25,7 +25,7 @@ jobs:
       - name: Show directories
 #        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
         run: |
-          tree .
+          ls -l
 
       - name: Build firmware
 #        working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
