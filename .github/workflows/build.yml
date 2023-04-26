@@ -15,15 +15,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          path: manifest
+          path: .
 
       - name: Initialize
-        working-directory: manifest
+        working-directory: .
         run: |
           west init -l .
           west update
       - name: Show directories
-        working-directory: manifest
+        working-directory: .
         run: |
           ls -la && \
           pwd
