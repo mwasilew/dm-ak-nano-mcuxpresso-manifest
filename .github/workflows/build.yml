@@ -17,21 +17,24 @@ jobs:
         with:
           path: ./
 
-      - name: Initialize
+      - name: Build
         working-directory: ./
         run: |
           west init -l .
           west update
-      - name: Show directories
-        working-directory: ./
-        run: |
-          ls -la && \
-          pwd
-
-      - name: Build firmware
-        working-directory: ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
-        run: |
-          pwd && \
-          ls -l && \
+          cd foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
+
+#      - name: Show directories
+#        working-directory: ./
+#        run: |
+#          ls -la && \
+#          pwd
+#
+#      - name: Build firmware
+#        working-directory: ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
+#        run: |
+#          pwd && \
+#          ls -l && \
+#          ./build_flexspi_nor_release.sh
 
