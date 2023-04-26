@@ -1,0 +1,67 @@
+device_type: mimxrt1170_cm7
+job_name: boot
+timeouts:
+  job:
+    minutes: 15
+  action:
+    minutes: 5
+  connection:
+    minutes: 2
+priority: medium
+visibility: public
+metadata:
+  aknano_init/RUNNING_FROM_SLOT: "1"
+  aknano_init/RUNNING_VERSION: "1001"
+actions:
+- deploy:
+    timeout:
+      minutes: 15
+    to: downloads
+    images:
+      provision_secret:
+        url: file:///home/aknano_provisioning_secret.h
+      secret:
+        url: file:///home/aknano_secret.h
+      mcuboot:
+        url: file:///home/mcuboot_opensource.elf
+    postprocess:
+      docker:
+        image: miloszwasilewski/mcu_lava:latest
+        steps:
+        - export IMAGE_PATH=$PWD
+        - ls -l "${IMAGE_PATH}"
+        - echo "DEVICE_TYPE=mimxrt1170_cm7" >> flash.settings
+        - echo "TMPFILES=mcuboot_opensource.elf" >> flash.settings
+        - cd /home
+        - west init -m https://github.com/foundriesio/dm-ak-nano-mcuxpresso-manifest.git
+        - west update
+        - cp "${IMAGE_PATH}"/aknano_provisioning_secret.h foundriesio/aktualizr-nano/src/provisioning
+        - cp "${IMAGE_PATH}"/aknano_secret.h foundriesio/aktualizr-nano/src/
+        - cd foundriesio/dm-ak-nano-mcuxpresso/armgcc
+        - export ARMGCC_DIR=/usr/
+        - export AKNANO_BOARD_MODEL="rt1170"
+        - ./build_flexspi_nor_release.sh
+        - imgtool sign --key /home/root-rsa-2048.pem --pad --confirm --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+1001 flexspi_nor_release/ota_demo.bin flexspi_nor_release/ota_demo.signed.bin
+        - cp flexspi_nor_release/ota_demo.signed.bin $IMAGE_PATH
+        - ls -l $IMAGE_PATH
+- deploy:
+    timeout:
+      minutes: 5
+    to: flasher
+    images:
+      image:
+        url: downloads://ota_demo.signed.bin
+      settings:
+        url: downloads://flash.settings
+      mcuboot:
+        url: downloads://mcuboot_opensource.elf
+- boot:
+    timeout:
+      minutes: 10
+    method: minimal
+- test:
+    monitors:
+    - name: "boot_test"
+      start: "---------STARTING DEMO---------"
+      end: "Sleeping 15 seconds"
+      pattern: _unused_ 

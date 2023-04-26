@@ -1,0 +1,57 @@
+name: Build RT1170
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: miloszwasilewski/mcu_lava:latest
+    env:
+      ARMGCC_DIR: "/usr/"
+      AKNANO_BOARD_MODEL: "rt1170"
+      QA_TOKEN: ${{ secrets.QA_REPORTS_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: ./
+
+      - name: Build
+        working-directory: ./
+        run: |
+          west init -l .
+          west update
+          ln -sfn dm-ak-nano-mcuxpresso-manifest ../poc
+          export MANIFEST_HASH=$(git -C ../foundriesio/aktualizr-nano/ log --format=%H -n 1)
+          echo "====================================="
+          echo "${MANIFEST_HASH}"
+          echo "MANIFEST_HASH=${MANIFEST_HASH}" >> $GITHUB_ENV
+          echo "====================================="
+          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
+          ./build_flexspi_nor_release.sh
+
+      - name: Install python dependencies
+        run: |
+          python3 -m pip install requests
+
+      - name: Submit test jobs
+        working-directory: ./
+        run: |
+          for FILE in .github/workflows/job_templates/*; \
+          do
+            python3 .github/workflows/submit_job.py \
+                --qa-server https://qa-reports.foundries.io/api \
+                --qa-team "~milosz" \
+                --qa-project mcu \
+                --qa-version "${GITHUB_SHA}" \
+                --qa-environment mimxrt1170_cm7 \
+                --qa-backend lava.infra.foundries.io \
+                --job-filename "${FILE}" \
+                --qa-patch-source mwasilew-github-aknano-manifest \
+                --commit-id "${GITHUB_SHA}" \
+                --commit-repository dm-ak-nano-mcuxpresso-manifest  \
+                --commit-repository-user mwasilew
+          done
+
