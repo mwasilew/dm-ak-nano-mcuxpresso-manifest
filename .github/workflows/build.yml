@@ -25,11 +25,13 @@ jobs:
       - name: Show directories
         working-directory: manifest
         run: |
-          ls -la
+          ls -la && \
+          pwd
 
       - name: Build firmware
         working-directory: foundriesio/dm-ak-nano-mcuxpresso/armgcc
         run: |
-          cd foundriesio/dm-ak-nano-mcuxpresso/armgcc && \
+          pwd && \
+          ls -l && \
           ./build_flexspi_nor_release.sh
 
