@@ -106,7 +106,7 @@ def main():
     VERSION = args.qa_version
     ENVIRONMENT = args.qa_environment
 
-    URL = "api/%s/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
+    URL = "%s/api/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
 
     patch_id = None
     if args.commit_id and args.commit_repository and args.commit_repository_user and args.qa_patch_source:
