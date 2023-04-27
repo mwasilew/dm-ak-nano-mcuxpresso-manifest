@@ -5,6 +5,9 @@ import os
 import requests
 import sys
 import logging
+import time
+
+from urllib.parse import urlparse
 
 
 # create logger
@@ -23,6 +26,37 @@ ch.setFormatter(formatter)
 
 # add ch to logger
 logger.addHandler(ch)
+
+def resolve_job_id(qa_server, qa_backend, qa_job_id):
+    server_parts = urlparse(qa_server)
+    QA_SERVER = f"{server_parts.scheme}://{server_parts.netloc}/"
+
+    # get job details
+    url = f"{QA_SERVER}/api/testjobs/{qa_job_id}/"
+    response = requests.get(url)
+    lava_job_id = None
+    if response.status_code == 200:
+        job_details = response.json()
+        lava_job_id = job_details["job_id"]
+    if lava_job_id is None:
+        logger.info("No LAVA job ID available")
+        return
+
+    # get backend details
+    url = f"{QA_SERVER}/api/backends/?name={qa_backend}"
+    response = requests.get(url)
+    backend = None
+    if response.status_code == 200:
+        results = response.json()["results"]
+        if len(results) > 0:
+            # there should be only one
+            backend = results[0]
+    backend_job_url = None
+    if backend is not None:
+        backend_parts = urlparse(backend["url"])
+        backend_job_url = f"{backend_parts.scheme}://{backend_parts.netloc}/scheduler/job/{lava_job_id}"
+        logger.info("LAVA job URL: {backend_job_url}")
+
 
 
 def main():
@@ -63,7 +97,8 @@ def main():
         logger.error("QA Token missing")
         sys.exit(1)
 
-    QA_SERVER = args.qa_server
+    server_parts = urlparse(args.qa_server)
+    QA_SERVER = f"{server_parts.scheme}://{server_parts.netloc}/"
     QA_TOKEN = args.qa_token
 
     TEAM = args.qa_team
@@ -71,7 +106,7 @@ def main():
     VERSION = args.qa_version
     ENVIRONMENT = args.qa_environment
 
-    URL = "%s/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
+    URL = "api/%s/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
 
     patch_id = None
     if args.commit_id and args.commit_repository and args.commit_repository_user and args.qa_patch_source:
@@ -87,7 +122,7 @@ def main():
             "patch_source": args.qa_patch_source
         })
 
-    url = "{QA_SERVER}/createbuild/{QA_SERVER_TEAM}/{QA_SERVER_PROJECT}/{QA_SERVER_VERSION}".format(
+    url = "{QA_SERVER}/api/createbuild/{QA_SERVER_TEAM}/{QA_SERVER_PROJECT}/{QA_SERVER_VERSION}".format(
         QA_SERVER=QA_SERVER,
         QA_SERVER_TEAM=TEAM,
         QA_SERVER_PROJECT=PROJECT,
@@ -110,6 +145,8 @@ def main():
     if response.status_code == 201:
         qa_job_id = response.text
         logger.info(f"Test job submitted via QA Reports: {QA_SERVER}/api/testjobs/{qa_job_id}/")
+        time.sleep(30)  # wait 30 seconds for test job submission
+        resolve_job_id(QA_SERVER, args.qa_backend, qa_job_id)
 
 if __name__ == "__main__":
     main()
