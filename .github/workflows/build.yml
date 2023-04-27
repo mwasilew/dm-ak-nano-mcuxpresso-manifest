@@ -50,7 +50,7 @@ jobs:
                 --qa-backend lava.infra.foundries.io \
                 --job-filename "${FILE}" \
                 --qa-patch-source mwasilew-github-aknano-manifest \
-                --commit-id "${MANIFEST_HASH}" \
+                --commit-id "${GITHUB_SHA}" \
                 --commit-repository dm-ak-nano-mcuxpresso-manifest  \
                 --commit-repository-user mwasilew
           done
