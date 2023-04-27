@@ -24,9 +24,11 @@ jobs:
           west init -l .
           west update
           ln -sfn dm-ak-nano-mcuxpresso-manifest ../poc
-          export MANIFEST_HASH=$(git -C ../poc log --format=%H -n 1)
+          export MANIFEST_HASH=$(git -C ../foundriesio/aktualizr-nano/ log --format=%H -n 1)
+          echo "====================================="
           echo "${MANIFEST_HASH}"
           echo "MANIFEST_HASH=${MANIFEST_HASH}" >> $GITHUB_ENV
+          echo "====================================="
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
 
