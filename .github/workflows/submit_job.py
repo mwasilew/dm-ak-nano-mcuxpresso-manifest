@@ -55,7 +55,7 @@ def resolve_job_id(qa_server, qa_backend, qa_job_id):
     if backend is not None:
         backend_parts = urlparse(backend["url"])
         backend_job_url = f"{backend_parts.scheme}://{backend_parts.netloc}/scheduler/job/{lava_job_id}"
-        logger.info("LAVA job URL: {backend_job_url}")
+        logger.info(f"LAVA job URL: {backend_job_url}")
 
 
 
