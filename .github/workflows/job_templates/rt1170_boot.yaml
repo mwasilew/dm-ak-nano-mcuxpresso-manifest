@@ -10,8 +10,8 @@ timeouts:
 priority: medium
 visibility: public
 metadata:
-  RUNNING_FROM_SLOT: "1"
-  RUNNING_VERSION: "1001"
+  aknano_init/RUNNING_FROM_SLOT: "1"
+  aknano_init/RUNNING_VERSION: "1001"
 actions:
 - deploy:
     timeout:
