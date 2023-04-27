@@ -45,7 +45,7 @@ jobs:
                 --qa-server https://qa-reports.foundries.io/api \
                 --qa-team "~milosz" \
                 --qa-project mcu \
-                --qa-version "${MANIFEST_HASH}" \
+                --qa-version "${GITHUB_SHA}" \
                 --qa-environment mimxrt1170_cm7 \
                 --qa-backend lava.infra.foundries.io \
                 --job-filename "${FILE}" \
