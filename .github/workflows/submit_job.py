@@ -96,7 +96,7 @@ def main():
 
     build_response = requests.post(url, data=data, headers=headers)
     if build_response.status_code == 201:
-        logger.info(f"QA Reports build created: {QA_SERVER}/{QA_SERVER_TEAM}/{QA_SERVER_PROJECT}/build/{QA_SERVER_VERSION}")
+        logger.info(f"QA Reports build created: {QA_SERVER}/{TEAM}/{PROJECT}/build/{VERSION}")
 
     definition = None
     with open(args.job_filename, "r") as jobfile:
