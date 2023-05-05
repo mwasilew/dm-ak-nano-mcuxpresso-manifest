@@ -2,7 +2,7 @@ name: Test RT1170
 
 on:
   workflow_run:
-    workflows: [Build]
+    workflows: [Build RT1170]
     types: [completed]
 
 jobs:
