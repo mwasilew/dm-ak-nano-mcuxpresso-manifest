@@ -22,6 +22,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
       QA_TOKEN: ${{ secrets.QA_REPORTS_TOKEN }}
+      BUILD_RUN_ID: ${{github.event.workflow_run.outputs.BUILD_RUN_ID}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,6 +49,6 @@ jobs:
                 --commit-id "${GITHUB_SHA}" \
                 --commit-repository dm-ak-nano-mcuxpresso-manifest  \
                 --commit-repository-user foundriesio \
-                --gh-artifacts-url "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${github.event.workflow_run.outputs.BUILD_RUN_ID}/artifacts"
+                --gh-artifacts-url "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${BUILD_RUN_ID}/artifacts"
           done
 
