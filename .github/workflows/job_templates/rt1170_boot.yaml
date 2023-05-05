@@ -18,14 +18,10 @@ actions:
       minutes: 15
     to: downloads
     images:
-      provision_secret:
-        url: https://s.lava.infra.foundries.io/aknano_provisioning_secret.h
+      build:
+        url: {BUILD_URL}
         headers:
-          Authorization: LAVA_BASIC_AUTH
-      secret:
-        url: https://s.lava.infra.foundries.io/aknano_secret.h
-        headers:
-          Authorization: LAVA_BASIC_AUTH
+          Authorization: GITHUB_AUTH
       mcuboot:
         url: https://s.lava.infra.foundries.io/mcuboot_opensource.elf
         headers:
@@ -36,19 +32,11 @@ actions:
         steps:
         - export IMAGE_PATH=$PWD
         - ls -l "${IMAGE_PATH}"
+        - unzip "zip"
+        - ls -l "${IMAGE_PATH}"
         - echo "DEVICE_TYPE=mimxrt1170_cm7" >> flash.settings
         - echo "TMPFILES=mcuboot_opensource.elf" >> flash.settings
-        - cd /home
-        - west init -m https://github.com/foundriesio/dm-ak-nano-mcuxpresso-manifest.git
-        - west update
-        - cp "${IMAGE_PATH}"/aknano_provisioning_secret.h foundriesio/aktualizr-nano/src/provisioning
-        - cp "${IMAGE_PATH}"/aknano_secret.h foundriesio/aktualizr-nano/src/
-        - cd foundriesio/dm-ak-nano-mcuxpresso/armgcc
-        - export ARMGCC_DIR=/usr/
-        - export AKNANO_BOARD_MODEL="rt1170"
-        - ./build_flexspi_nor_release.sh
-        - imgtool sign --key /home/root-rsa-2048.pem --pad --confirm --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+1001 flexspi_nor_release/ota_demo.bin flexspi_nor_release/ota_demo.signed.bin
-        - cp flexspi_nor_release/ota_demo.signed.bin $IMAGE_PATH
+        - imgtool sign --key /home/root-rsa-2048.pem --pad --confirm --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+1001 ota_demo.bin ota_demo.signed.bin
         - ls -l $IMAGE_PATH
 - deploy:
     timeout:

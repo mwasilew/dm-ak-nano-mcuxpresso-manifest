@@ -27,6 +27,12 @@ ch.setFormatter(formatter)
 # add ch to logger
 logger.addHandler(ch)
 
+
+class SafeDict(dict):
+    def __missing__(self, key):
+        return '{' + key + '}'
+
+
 def resolve_job_id(qa_server, qa_backend, qa_job_id):
     server_parts = urlparse(qa_server)
     QA_SERVER = f"{server_parts.scheme}://{server_parts.netloc}/"
@@ -90,6 +96,9 @@ def main():
     parser.add_argument("--qa-patch-source",
             default=os.environ.get("QA_PATCH_SOURCE"),
             required=False)
+    parser.add_argument("--gh-artifacts-url",
+            default=os.environ.get("GITHUB_ARTIFACTS_URL"),
+            required=False)
 
 
     args = parser.parse_args()
@@ -138,7 +147,7 @@ def main():
         definition = jobfile.read()
     data = {
         "backend": args.qa_backend,
-        "definition": definition
+        "definition": definition.format_map(SafeDict(BUILD_URL=args.gh_artifacts_url))
     }
 
     response = requests.post(URL, data=data, headers=headers)
