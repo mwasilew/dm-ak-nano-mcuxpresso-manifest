@@ -31,15 +31,34 @@ jobs:
           echo "====================================="
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
+          echo "====================================="
+          echo "${GITHUB_RUN_ID}"
+          echo "====================================="
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
           name: flex-nor-release
           path: /__w/dm-ak-nano-mcuxpresso-manifest/foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release/*
 
+  test:
+    runs-on: ubuntu-latest
+    container: miloszwasilewski/mcu_lava:latest
+    env:
+      ARMGCC_DIR: "/usr/"
+      AKNANO_BOARD_MODEL: "rt1170"
+      QA_TOKEN: ${{ secrets.QA_REPORTS_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: ./
+
       - name: Submit test jobs
         working-directory: ./
         run: |
+          echo "====================================="
+          echo "${GITHUB_RUN_ID}"
+          echo "====================================="
           for FILE in .github/workflows/job_templates/*; \
           do
             python3 .github/workflows/submit_job.py \
