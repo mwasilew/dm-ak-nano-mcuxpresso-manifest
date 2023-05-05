@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     container: miloszwasilewski/mcu_lava:latest
     outputs:
-      BUILD_RUN_ID: "${GITHUB_RUN_ID}"
+      BUILD_RUN_ID: ${{GITHUB_RUN_ID}}
     env:
       ARMGCC_DIR: "/usr/"
       AKNANO_BOARD_MODEL: "rt1170"

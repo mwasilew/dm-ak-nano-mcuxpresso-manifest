@@ -35,6 +35,8 @@ jobs:
           echo "====================================="
           echo "${GITHUB_RUN_ID}"
           echo "====================================="
+          echo "${BUILD_RUN_ID}"
+          echo "====================================="
           for FILE in .github/workflows/job_templates/*; \
           do
             python3 .github/workflows/submit_job.py \
