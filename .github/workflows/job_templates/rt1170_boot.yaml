@@ -19,11 +19,17 @@ actions:
     to: downloads
     images:
       provision_secret:
-        url: file:///home/aknano_provisioning_secret.h
+        url: https://s.lava.infra.foundries.io/aknano_provisioning_secret.h
+        headers:
+          Authorization: LAVA_BASIC_AUTH
       secret:
-        url: file:///home/aknano_secret.h
+        url: https://s.lava.infra.foundries.io/aknano_secret.h
+        headers:
+          Authorization: LAVA_BASIC_AUTH
       mcuboot:
-        url: file:///home/mcuboot_opensource.elf
+        url: https://s.lava.infra.foundries.io/mcuboot_opensource.elf
+        headers:
+          Authorization: LAVA_BASIC_AUTH
     postprocess:
       docker:
         image: miloszwasilewski/mcu_lava:latest
