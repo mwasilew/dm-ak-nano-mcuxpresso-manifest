@@ -1,8 +1,8 @@
-name: Test RT1170
+name: Test
 
 on:
   workflow_run:
-    workflows: [Build RT1170]
+    workflows: [Build]
     types: [completed]
 
 jobs:
@@ -15,8 +15,6 @@ jobs:
           exit 1
 
   on-build-success:
-    outputs:
-      commit-sha: ${{ github.event.workflow_run.head_sha }}
     runs-on: ubuntu-latest
     container: miloszwasilewski/mcu_lava:latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
