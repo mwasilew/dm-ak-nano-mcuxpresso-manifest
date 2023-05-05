@@ -54,6 +54,6 @@ jobs:
                 --commit-id "${GITHUB_SHA}" \
                 --commit-repository dm-ak-nano-mcuxpresso-manifest  \
                 --commit-repository-user foundriesio \
-                --gh-artifacts-url "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/artifacts/${GITHUB_RUN_ID}/zip"
+                --gh-artifacts-url "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts"
           done
 

@@ -142,12 +142,19 @@ def main():
     if build_response.status_code == 201:
         logger.info(f"QA Reports build created: {QA_SERVER}/{TEAM}/{PROJECT}/build/{VERSION}")
 
+    # build artifacts
+    artifact_url = None
+    artifact_response = requests.get(args.gh_artifacts_url)
+    if artifacts_response.status_code == 200:
+        artifact_list = artifact_response.json()
+        artifact_url = artifact_list["artifacts"][0]["archive_download_url"]
+
     definition = None
     with open(args.job_filename, "r") as jobfile:
         definition = jobfile.read()
     data = {
         "backend": args.qa_backend,
-        "definition": definition.format_map(SafeDict(BUILD_URL=args.gh_artifacts_url))
+        "definition": definition.format_map(SafeDict(BUILD_URL=artifact_url))
     }
 
     response = requests.post(URL, data=data, headers=headers)
