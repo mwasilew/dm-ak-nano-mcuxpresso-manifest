@@ -1,0 +1,53 @@
+name: Test RT1170
+
+on:
+  workflow_run:
+    workflows: [Build]
+    types: [completed]
+
+jobs:
+  on-build-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: |
+          echo "Build failed"
+          exit 1
+
+  on-build-success:
+    outputs:
+      commit-sha: ${{ github.event.workflow_run.head_sha }}
+    runs-on: ubuntu-latest
+    container: miloszwasilewski/mcu_lava:latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    env:
+      QA_TOKEN: ${{ secrets.QA_REPORTS_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: ./
+
+      - name: Submit test jobs
+        working-directory: ./
+        run: |
+          echo "====================================="
+          echo "${GITHUB_RUN_ID}"
+          echo "====================================="
+          for FILE in .github/workflows/job_templates/*; \
+          do
+            python3 .github/workflows/submit_job.py \
+                --qa-server https://qa-reports.foundries.io/api \
+                --qa-team "~milosz" \
+                --qa-project mcu \
+                --qa-version "${GITHUB_SHA}" \
+                --qa-environment mimxrt1170_cm7 \
+                --qa-backend lava.infra.foundries.io \
+                --job-filename "${FILE}" \
+                --qa-patch-source fio-github \
+                --commit-id "${GITHUB_SHA}" \
+                --commit-repository dm-ak-nano-mcuxpresso-manifest  \
+                --commit-repository-user foundriesio \
+                --gh-artifacts-url "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${github.event.workflow_run.outputs.BUILD_RUN_ID}/artifacts"
+          done
+
