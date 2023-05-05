@@ -147,6 +147,7 @@ def main():
     artifact_response = requests.get(args.gh_artifacts_url)
     if artifact_response.status_code == 200:
         artifact_list = artifact_response.json()
+        logger.debug(artifact_list)
         artifact_url = artifact_list["artifacts"][0]["archive_download_url"]
 
     definition = None
