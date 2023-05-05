@@ -145,7 +145,7 @@ def main():
     # build artifacts
     artifact_url = None
     artifact_response = requests.get(args.gh_artifacts_url)
-    if artifacts_response.status_code == 200:
+    if artifact_response.status_code == 200:
         artifact_list = artifact_response.json()
         artifact_url = artifact_list["artifacts"][0]["archive_download_url"]
 
