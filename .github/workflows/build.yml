@@ -42,6 +42,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: build
     container: miloszwasilewski/mcu_lava:latest
     env:
       ARMGCC_DIR: "/usr/"
