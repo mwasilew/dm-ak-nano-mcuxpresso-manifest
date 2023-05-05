@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     container: miloszwasilewski/mcu_lava:latest
     outputs:
-      BUILD_RUN_ID: ${{GITHUB_RUN_ID}}
+      BUILD_RUN_ID: ${{steps.Build.outputs.BUILD_RUN_ID}}
     env:
       ARMGCC_DIR: "/usr/"
       AKNANO_BOARD_MODEL: "rt1170"
@@ -35,6 +35,7 @@ jobs:
           echo "====================================="
           echo "${GITHUB_RUN_ID}"
           echo "====================================="
+          echo "BUILD_RUN_ID=${GITHUB_RUN_ID}" >> "$GITHUB_OUTPUT"
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
