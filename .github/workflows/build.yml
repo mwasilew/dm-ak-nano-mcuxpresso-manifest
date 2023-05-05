@@ -31,10 +31,12 @@ jobs:
           echo "====================================="
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
-
-      - name: Install python dependencies
-        run: |
-          python3 -m pip install requests
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        working-directory: ./
+        with:
+          name: dist-without-markdown
+          path: ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release/*
 
       - name: Submit test jobs
         working-directory: ./
@@ -49,9 +51,9 @@ jobs:
                 --qa-environment mimxrt1170_cm7 \
                 --qa-backend lava.infra.foundries.io \
                 --job-filename "${FILE}" \
-                --qa-patch-source mwasilew-github-aknano-manifest \
+                --qa-patch-source fio-github \
                 --commit-id "${GITHUB_SHA}" \
                 --commit-repository dm-ak-nano-mcuxpresso-manifest  \
-                --commit-repository-user mwasilew
+                --commit-repository-user foundriesio
           done
 
