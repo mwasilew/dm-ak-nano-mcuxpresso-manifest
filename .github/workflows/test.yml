@@ -22,7 +22,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
       QA_TOKEN: ${{ secrets.QA_REPORTS_TOKEN }}
-      BUILD_RUN_ID: ${{github.event.workflow_run.outputs.BUILD_RUN_ID}}
+      BUILD_RUN_ID: ${{github.event.workflow_run.id}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
