@@ -33,6 +33,15 @@ jobs:
           echo "====================================="
           echo "${GITHUB_RUN_ID}"
           echo "====================================="
+      - name: Create and upload Targets
+        working-directory: ./
+        env:
+          FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
+        run: |
+          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
+          fioctl version
+          fioctl --verbose --token "$env.FIOCTL_TOKEN" --factory milosz-mcu targets create-file ota_demo.bin "1002" MIMXRT1170-EVK ci-test-1
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
