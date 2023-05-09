@@ -39,7 +39,7 @@ jobs:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
         run: |
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
-          echo "${FIOCTL_TOKEN}" > debug.file
+          echo "${FIOCTL_TOKEN}" | base64
           cat debug.file
           fioctl version
           fioctl --verbose --token "$env.FIOCTL_TOKEN" --factory milosz-mcu targets create-file ota_demo.bin "1002" MIMXRT1170-EVK ci-test-1
