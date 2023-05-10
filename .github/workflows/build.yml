@@ -50,7 +50,9 @@ jobs:
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+          rm flexspi_nor_release/ota_demo.bin
 
       - name: Build ci-test-2
         env:
@@ -64,7 +66,9 @@ jobs:
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+          rm flexspi_nor_release/ota_demo.bin
 
       - name: Build ci-test-3
         env:
@@ -78,7 +82,9 @@ jobs:
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+          rm flexspi_nor_release/ota_demo.bin
 
       - name: Build ci-test-4
         env:
@@ -93,7 +99,9 @@ jobs:
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+          rm flexspi_nor_release/ota_demo.bin
 
       - name: Create and upload Targets
         working-directory: ./
