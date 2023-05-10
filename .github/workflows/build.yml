@@ -90,8 +90,9 @@ jobs:
         working-directory: ./
         env:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
-          BUILD_HWID: MIMXRT1170-EVK
+          BOARD_MODEL: ${{matrix.BOARD_MODEL}}
         run: |
+          export BUILD_HWID="mimx${BOARD_MODEL}-evk"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
