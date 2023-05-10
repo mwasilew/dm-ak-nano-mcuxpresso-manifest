@@ -36,7 +36,6 @@ actions:
         - ls -l "${IMAGE_PATH}"
         - echo "DEVICE_TYPE=mimxrt1170_cm7" >> flash.settings
         - echo "TMPFILES=mcuboot_opensource.elf" >> flash.settings
-        - imgtool sign --key /home/root-rsa-2048.pem --pad --confirm --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+1001 ota_demo.bin ota_demo.signed.bin
         - ls -l $IMAGE_PATH
 - deploy:
     timeout:
@@ -44,7 +43,7 @@ actions:
     to: flasher
     images:
       image:
-        url: downloads://ota_demo.signed.bin
+        url: downloads://ota_demo.1001.signed.bin
       settings:
         url: downloads://flash.settings
       mcuboot:

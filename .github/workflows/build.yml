@@ -11,14 +11,15 @@ jobs:
     env:
       ARMGCC_DIR: "/usr/"
       AKNANO_BOARD_MODEL: "rt1170"
+      AKNANO_USE_MAC_ADDRESS_AS_DEVICE_UUID: 1
+      AKNANO_DUMP_DOWNLOADED_TUF_METADATA: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           path: ./
 
-      - name: Build
-        working-directory: ./
+      - name: West Init
         run: |
           west init -l .
           west update
@@ -28,21 +29,73 @@ jobs:
           echo "${MANIFEST_HASH}"
           echo "MANIFEST_HASH=${MANIFEST_HASH}" >> $GITHUB_ENV
           echo "====================================="
+
+      - name: Build ci-test-1
+        env:
+          DEFAULT_TAG: "ci-test-1"
+          AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_1"
+          ota_revision: "1001"
+        working-directory: ./
+        run: |
+          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
-          echo "====================================="
-          echo "${GITHUB_RUN_ID}"
-          echo "====================================="
+          imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+
+      - name: Build ci-test-2
+        env:
+          DEFAULT_TAG: "ci-test-2"
+          AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_2"
+          ota_revision: "1002"
+        working-directory: ./
+        run: |
+          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
+          ./build_flexspi_nor_release.sh
+          imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+
+      - name: Build ci-test-3
+        env:
+          DEFAULT_TAG: "ci-test-4"
+          AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_4"
+          ota_revision: "1003"
+        working-directory: ./
+        run: |
+          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
+          ./build_flexspi_nor_release.sh
+          imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+
+      - name: Build ci-test-4
+        env:
+          DEFAULT_TAG: "ci-test-4"
+          AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_4"
+          AKNANO_TEST_ROLLBACK: 1
+          ota_revision: "1004"
+        working-directory: ./
+        run: |
+          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
+          ./build_flexspi_nor_release.sh
+          imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
+
       - name: Create and upload Targets
         working-directory: ./
         env:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
+          BUILD_HWID: MIMXRT1170-EVK
         run: |
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.bin "1002" MIMXRT1170-EVK ci-test-1
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}-1002" "${BUILD_HWID}" ci-test-1
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}-1003" "${BUILD_HWID}" ci-test-2
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}-1004" "${BUILD_HWID}" ci-test-3
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
