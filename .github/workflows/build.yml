@@ -107,15 +107,16 @@ jobs:
         working-directory: ./
         env:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
+          FACTORY: milosz-mcu
         run: |
           export BUILD_HWID="mimx${AKNANO_BOARD_MODEL}-evk"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-3"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-3"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
