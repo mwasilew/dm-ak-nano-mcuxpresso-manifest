@@ -92,9 +92,9 @@ jobs:
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}-1002" "${BUILD_HWID}" ci-test-1
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}-1003" "${BUILD_HWID}" ci-test-2
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}-1004" "${BUILD_HWID}" ci-test-3
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" ci-test-1
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" ci-test-2
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" ci-test-3
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
 
       - name: Archive artifacts
