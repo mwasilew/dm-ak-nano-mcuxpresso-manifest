@@ -23,6 +23,9 @@ jobs:
           path: ./
 
       - name: West Init
+        env:
+          PROVISIONING_SECRET: ${{secrets.AKNANO_PROVISIONING_SECRET}}
+          SECRET: ${{secrets.AKNANO_SECRET}}
         run: |
           west init -l .
           west update
@@ -32,6 +35,8 @@ jobs:
           echo "${MANIFEST_HASH}"
           echo "MANIFEST_HASH=${MANIFEST_HASH}" >> $GITHUB_ENV
           echo "====================================="
+          echo "${PROVISIONING_SECRET}" > foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
+          echo "${SECRET}" > foundriesio/aktualizr-nano/src/aknano_secret.h
 
       - name: Build ci-test-1
         env:
