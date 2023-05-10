@@ -31,10 +31,7 @@ jobs:
           west update
           ln -sfn dm-ak-nano-mcuxpresso-manifest ../poc
           export MANIFEST_HASH=$(git -C ../foundriesio/aktualizr-nano/ log --format=%H -n 1)
-          echo "====================================="
-          echo "${MANIFEST_HASH}"
-          echo "MANIFEST_HASH=${MANIFEST_HASH}" >> $GITHUB_ENV
-          echo "====================================="
+          echo "AKNANO_MANIFEST_COMMIT_ID=${MANIFEST_HASH}" >> $GITHUB_ENV
           #echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
           #echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
 
