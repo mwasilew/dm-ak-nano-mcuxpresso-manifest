@@ -35,8 +35,8 @@ jobs:
           echo "${MANIFEST_HASH}"
           echo "MANIFEST_HASH=${MANIFEST_HASH}" >> $GITHUB_ENV
           echo "====================================="
-          echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
-          echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
+          #echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
+          #echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
 
       - name: Build ci-test-1
         env:
