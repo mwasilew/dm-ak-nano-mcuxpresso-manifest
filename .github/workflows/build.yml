@@ -41,7 +41,7 @@ jobs:
         working-directory: ./
         run: |
           export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
@@ -54,7 +54,7 @@ jobs:
         working-directory: ./
         run: |
           export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
@@ -67,7 +67,7 @@ jobs:
         working-directory: ./
         run: |
           export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
@@ -81,7 +81,7 @@ jobs:
         working-directory: ./
         run: |
           export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
@@ -90,15 +90,14 @@ jobs:
         working-directory: ./
         env:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
-          BOARD_MODEL: ${{matrix.BOARD_MODEL}}
         run: |
-          export BUILD_HWID="mimx${BOARD_MODEL}-evk"
+          export BUILD_HWID="mimx${AKNANO_BOARD_MODEL}-evk"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file ota_demo.1001.signed.bin "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-3"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-3"
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory milosz-mcu targets list --raw
 
       - name: Archive artifacts
