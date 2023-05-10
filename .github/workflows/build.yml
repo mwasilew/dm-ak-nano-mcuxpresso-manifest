@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        BOARD_MODEL: ["rt1170_cm7", "rt1060"]
+        BOARD_MODEL: ["rt1170", "rt1060"]
     runs-on: ubuntu-latest
     container: miloszwasilewski/mcu_lava:latest
     env:
