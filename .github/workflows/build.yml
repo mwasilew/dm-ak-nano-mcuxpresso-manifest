@@ -115,6 +115,13 @@ jobs:
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-3"
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
 
+      - name: Add debug files
+        working-directory: ./
+        run: |
+          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
+          echo "${PROVISIONING_SECRET}" > ./aknano_provisioning_secret.h
+          echo "${SECRET}" > ./aknano_secret.h
+
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
         with:
