@@ -104,7 +104,7 @@ jobs:
         working-directory: ./
         env:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
-          FACTORY: milosz-mcu
+          FACTORY: lmp-ci-mcu
         run: |
           export BUILD_HWID="mimx${AKNANO_BOARD_MODEL}-evk"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
