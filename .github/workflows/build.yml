@@ -117,6 +117,9 @@ jobs:
 
       - name: Add debug files
         working-directory: ./
+        env:
+          PROVISIONING_SECRET: ${{secrets.AKNANO_PROVISIONING_SECRET}}
+          SECRET: ${{secrets.AKNANO_SECRET}}
         run: |
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           echo "${PROVISIONING_SECRET}" > ./aknano_provisioning_secret.h
