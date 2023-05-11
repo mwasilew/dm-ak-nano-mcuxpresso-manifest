@@ -122,8 +122,8 @@ jobs:
           SECRET: ${{secrets.AKNANO_SECRET}}
         run: |
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
-          echo "${PROVISIONING_SECRET}" > ./aknano_provisioning_secret.h
-          echo "${SECRET}" > ./aknano_secret.h
+          echo -E "${PROVISIONING_SECRET}" > ./aknano_provisioning_secret.h
+          echo -E "${SECRET}" > ./aknano_secret.h
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v3
