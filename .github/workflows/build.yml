@@ -32,8 +32,8 @@ jobs:
           ln -sfn dm-ak-nano-mcuxpresso-manifest ../poc
           export MANIFEST_HASH=$(git -C ../foundriesio/aktualizr-nano/ log --format=%H -n 1)
           echo "AKNANO_MANIFEST_COMMIT_ID=${MANIFEST_HASH}" >> $GITHUB_ENV
-          #echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
-          #echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
+          echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
+          echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
 
       - name: Build ci-test-1
         env:
