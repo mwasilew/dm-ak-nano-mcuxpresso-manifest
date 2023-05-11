@@ -32,7 +32,7 @@ actions:
         headers:
           Authorization: GITHUB_AUTH
       mcuboot:
-        url: https://s.lava.infra.foundries.io/mcuboot_opensource.elf
+        url: https://s.lava.infra.foundries.io/mcuboot_opensource_rt1060.elf
         headers:
           Authorization: LAVA_BASIC_AUTH
     postprocess:
