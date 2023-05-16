@@ -57,7 +57,7 @@ jobs:
               TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${TAG_PRFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
@@ -80,7 +80,7 @@ jobs:
               TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${TAG_PRFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
@@ -103,7 +103,7 @@ jobs:
               TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${TAG_PRFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
@@ -127,7 +127,7 @@ jobs:
               TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
-          export signed_file="flexspi_nor_release/ota_demo.${TAG_PRFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
+          export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
           cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
