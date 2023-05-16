@@ -106,7 +106,8 @@ jobs:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
           FACTORY: lmp-ci-mcu
         run: |
-          export BUILD_HWID="MIMX${AKNANO_BOARD_MODEL^^}-EVK"
+          export _BUILD_HWID="${AKNANO_BOARD_MODEL^^}"
+          export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
