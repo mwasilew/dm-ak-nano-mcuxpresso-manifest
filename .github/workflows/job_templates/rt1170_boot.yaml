@@ -41,7 +41,7 @@ actions:
         - unzip "zip"
         - ls -l "${IMAGE_PATH}"
         - echo "DEVICE_TYPE=mimxrt1170_cm7" >> flash.settings
-        - echo "TMPFILES=mcuboot_opensource.elf" >> flash.settings
+        - echo "TMPFILES=mcuboot_opensource_rt1170.elf" >> flash.settings
         - ls -l $IMAGE_PATH
 - deploy:
     timeout:
@@ -53,7 +53,6 @@ actions:
       settings:
         url: downloads://flash.settings
       mcuboot:
-        url: downloads://mcuboot_opensource.elf
         url: downloads://mcuboot_opensource_rt1170.elf
 - boot:
     timeout:
