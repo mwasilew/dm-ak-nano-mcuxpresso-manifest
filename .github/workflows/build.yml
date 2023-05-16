@@ -69,7 +69,7 @@ jobs:
 
       - name: Build ci-test-3
         env:
-          DEFAULT_TAG: "ci-test-4"
+          DEFAULT_TAG: "ci-test-3"
           AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_4"
           ota_revision: "1003"
         working-directory: ./
