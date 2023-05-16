@@ -9,12 +9,18 @@ jobs:
     strategy:
       matrix:
         BOARD_MODEL: ["rt1170", "rt1060"]
-        AKNANO_ENABLE_SE05X: [0, 1]
+        ENABLE_SE05X: [0, 1]
+        ENABLE_EL2GO: [0, 1]
+        exclude:
+          - ENABLE_SE05X: 0
+            ENABLE_EL2GO: 1
     runs-on: ubuntu-latest
     container: miloszwasilewski/mcu_lava:latest
     env:
       ARMGCC_DIR: "/usr/"
       AKNANO_BOARD_MODEL: ${{matrix.BOARD_MODEL}}
+      AKNANO_ENABLE_SE05X: ${{matrix.ENABLE_SE05X}}
+      AKNANO_ENABLE_EL2GO: ${{matrix.ENABLE_EL2GO}}
       AKNANO_USE_MAC_ADDRESS_AS_DEVICE_UUID: 1
       AKNANO_DUMP_DOWNLOADED_TUF_METADATA: 1
     steps:
@@ -43,7 +49,14 @@ jobs:
           ota_revision: "1001"
         working-directory: ./
         run: |
-          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export TAG_PREFIX=""
+          if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
+              TAG_PREFIX="SE05X_"
+          fi
+          if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
+              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+          fi
+          export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
@@ -59,7 +72,14 @@ jobs:
           ota_revision: "1002"
         working-directory: ./
         run: |
-          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export TAG_PREFIX=""
+          if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
+              TAG_PREFIX="SE05X_"
+          fi
+          if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
+              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+          fi
+          export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
@@ -75,7 +95,14 @@ jobs:
           ota_revision: "1003"
         working-directory: ./
         run: |
-          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export TAG_PREFIX=""
+          if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
+              TAG_PREFIX="SE05X_"
+          fi
+          if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
+              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+          fi
+          export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
@@ -92,7 +119,14 @@ jobs:
           ota_revision: "1004"
         working-directory: ./
         run: |
-          export AKNANO_DEFAULT_TAG="${GITHUB_RUN_ID}-${DEFAULT_TAG}"
+          export TAG_PREFIX=""
+          if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
+              TAG_PREFIX="SE05X_"
+          fi
+          if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
+              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+          fi
+          export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
@@ -107,14 +141,21 @@ jobs:
           FIOCTL_TOKEN: ${{secrets.FIOCTL_TOKEN}}
           FACTORY: lmp-ci-mcu
         run: |
+          export TAG_PREFIX=""
+          if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
+              TAG_PREFIX="SE05X_"
+          fi
+          if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
+              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+          fi
           export _BUILD_HWID=$(echo "print(\"${AKNANO_BOARD_MODEL}\".upper())" | python3)
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
           #fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${GITHUB_RUN_ID}-ci-test-3"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
           #fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
 
       - name: Add debug files
