@@ -60,7 +60,7 @@ jobs:
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
-          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
           imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --pad --confirm --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
           rm flexspi_nor_release/ota_demo.bin
@@ -83,7 +83,7 @@ jobs:
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
-          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
           imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
           rm flexspi_nor_release/ota_demo.bin
@@ -106,7 +106,7 @@ jobs:
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
-          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
           imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
           rm flexspi_nor_release/ota_demo.bin
@@ -130,7 +130,7 @@ jobs:
           export signed_file="flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
           ./build_flexspi_nor_release.sh
-          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
+          cp "flexspi_nor_release/ota_demo.bin" "flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.bin"
           imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
           rm flexspi_nor_release/ota_demo.bin
@@ -153,9 +153,9 @@ jobs:
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
           #fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
           #fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
 
       - name: Add debug files
