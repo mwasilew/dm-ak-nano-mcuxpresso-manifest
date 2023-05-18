@@ -1,0 +1,23 @@
+diff --git a/fsl_sss_ftr.h b/fsl_sss_ftr.h
+index eb8a23e..7ec625e 100644
+--- a/fsl_sss_ftr.h
++++ b/fsl_sss_ftr.h
+@@ -42,7 +42,8 @@
+ #define SSS_HAVE_APPLET_SE05X_B      0
+ 
+ /** SE050 (Super set of A + B) */
+-#define SSS_HAVE_APPLET_SE05X_C      1
++#define SSS_HAVE_APPLET_SE05X_C      0
++#define SSS_HAVE_APPLET_SE050_E      1
+ 
+ /** SE050 (Similar to A71CL) */
+ #define SSS_HAVE_APPLET_SE05X_L      0
+@@ -578,7 +579,7 @@
+ #define SSS_HAVE_ECC               1
+ 
+ /* RSA is available */
+-#define SSS_HAVE_RSA               1
++#define SSS_HAVE_RSA               0
+ 
+ /* TPM BARRETO_NAEHRIG Curve is enabled */
+ #define SSS_HAVE_TPM_BN            1
