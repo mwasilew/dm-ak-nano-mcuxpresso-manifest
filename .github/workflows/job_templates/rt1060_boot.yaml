@@ -57,6 +57,10 @@ actions:
         url: downloads://flash.settings
       mcuboot:
         url: downloads://mcuboot_opensource_rt1060.elf
+- command:
+    name: remove_from_factory
+- command:
+    name: remove_from_denied
 - boot:
     timeout:
       minutes: 12
