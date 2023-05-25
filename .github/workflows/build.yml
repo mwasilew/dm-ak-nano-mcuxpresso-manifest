@@ -42,12 +42,12 @@ jobs:
           echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
           echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
           # make changes for SE050
-          if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
-              CURRENT_PATH=$PWD
-              ls
-              cd ../foundriesio/dm-ak-nano-mcuxpresso
-              patch -p1 < "${CURRENT_PATH}/se050.patch"
-          fi
+          #if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
+          #    CURRENT_PATH=$PWD
+          #    ls
+          #    cd ../foundriesio/dm-ak-nano-mcuxpresso
+          #    patch -p1 < "${CURRENT_PATH}/se050.patch"
+          #fi
 
       - name: Build ci-test-1
         env:
