@@ -41,8 +41,8 @@ jobs:
           echo "AKNANO_MANIFEST_COMMIT_ID=${MANIFEST_HASH}" >> $GITHUB_ENV
           echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
           echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
-          echo "${SHELL}"
-          echo "OTA_REVISION_BASE=${GITHUB_RUN_ID:0:6}" >> $GITHUB_ENV
+          GH_RUN_ID=$(echo "print(\"${GITHUB_RUN_ID}\"[:6])" | python3)
+          echo "OTA_REVISION_BASE=${GH_RUN_ID}" >> $GITHUB_ENV
 
       - name: Build ci-test-1
         env:
