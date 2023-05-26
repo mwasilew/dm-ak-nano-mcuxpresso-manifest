@@ -67,6 +67,10 @@ actions:
       end: "Halting execution"
       pattern: _unused_
 
+- command:
+    name: remove_from_el2go
+- command:
+    name: add_to_el2go
 
 - deploy:
     namespace: testrun
