@@ -155,19 +155,3 @@ jobs:
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
-
-      - name: Add debug files
-        working-directory: ./
-        env:
-          PROVISIONING_SECRET: ${{secrets.AKNANO_PROVISIONING_SECRET}}
-          SECRET: ${{secrets.AKNANO_SECRET}}
-        run: |
-          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
-          echo -E "${PROVISIONING_SECRET}" > ./aknano_provisioning_secret.h
-          echo -E "${SECRET}" > ./aknano_secret.h
-
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: flex-nor-release
-          path: /__w/dm-ak-nano-mcuxpresso-manifest/foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release/*
