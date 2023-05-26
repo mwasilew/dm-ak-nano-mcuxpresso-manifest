@@ -121,7 +121,7 @@ jobs:
           DEFAULT_TAG: "ci-test-4"
           AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_4"
           AKNANO_TEST_ROLLBACK: 1
-          ota_revision: "4"
+          ota_revision_seq: "4"
         working-directory: ./
         run: |
           export TAG_PREFIX=""
