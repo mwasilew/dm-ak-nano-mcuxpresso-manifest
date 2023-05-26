@@ -164,7 +164,7 @@ jobs:
         run: |
           fioctl version
 
-          OTA_REVISION_BASE=${GITHUB_RUN_ID:0:6}
+          OTA_REVISION_BASE=$(echo "print(\"${GITHUB_RUN_ID}\"[:6])" | python3)
           export AKNANO_BOARD_MODEL=rt1060
           export _BUILD_HWID=$(echo "print(\"${AKNANO_BOARD_MODEL}\".upper())" | python3)
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
