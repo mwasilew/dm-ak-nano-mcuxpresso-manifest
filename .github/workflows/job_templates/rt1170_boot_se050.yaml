@@ -67,6 +67,12 @@ actions:
       end: "Halting execution"
       pattern: _unused_
 
+- command:
+    namespace: cleanup
+    name: remove_from_factory
+- command:
+    namespace: cleanup
+    name: remove_from_denied
 
 - deploy:
     namespace: testrun
@@ -107,10 +113,6 @@ actions:
         url: downloads://flash.settings
       mcuboot:
         url: downloads://mcuboot_opensource_rt1170.elf
-- command:
-    name: remove_from_factory
-- command:
-    name: remove_from_denied
 - boot:
     namespace: testrun
     connection-namespace: cleanup

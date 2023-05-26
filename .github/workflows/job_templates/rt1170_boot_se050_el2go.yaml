@@ -68,8 +68,10 @@ actions:
       pattern: _unused_
 
 - command:
+    namespace: cleanup
     name: remove_from_el2go
 - command:
+    namespace: cleanup
     name: add_to_el2go
 
 - deploy:
