@@ -1,5 +1,5 @@
 device_type: mimxrt1170_cm7
-job_name: basic_mcu_ota_se050
+job_name: basic_mcu_ota_se050_el2go
 timeouts:
   job:
     minutes: 15
@@ -102,7 +102,7 @@ actions:
     to: flasher
     images:
       image:
-        url: downloads://ota_demo.SE05X_rt1170.1001.signed.bin
+        url: downloads://ota_demo.SE05X_EL2GO_rt1170.1001.signed.bin
       settings:
         url: downloads://flash.settings
       mcuboot:

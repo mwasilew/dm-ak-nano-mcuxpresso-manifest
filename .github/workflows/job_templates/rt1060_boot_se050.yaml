@@ -21,6 +21,56 @@ metadata:
   CI_TEST_3_v1003/ROLLBACK: "1"
 actions:
 - deploy:
+    namespace: cleanup
+    timeout:
+      minutes: 15
+    to: downloads
+    images:
+      build:
+        url: https://s.lava.infra.foundries.io/el2go_cleanup_rt1060.signed.bin
+        headers:
+          Authorization: LAVA_BASIC_AUTH
+      mcuboot:
+        url: https://s.lava.infra.foundries.io/mcuboot_opensource_rt1060.elf
+        headers:
+          Authorization: LAVA_BASIC_AUTH
+    postprocess:
+      docker:
+        image: miloszwasilewski/mcu_lava:latest
+        steps:
+        - export IMAGE_PATH=$PWD
+        - ls -l "${IMAGE_PATH}"
+        - echo "DEVICE_TYPE=mimxrt1060" >> flash.settings
+        - echo "TMPFILES=mcuboot_opensource_rt1060.elf" >> flash.settings
+        - ls -l $IMAGE_PATH
+- deploy:
+    namespace: cleanup
+    timeout:
+      minutes: 5
+    to: flasher
+    images:
+      image:
+        url: downloads://el2go_cleanup_rt1060.signed.bin
+      settings:
+        url: downloads://flash.settings
+      mcuboot:
+        url: downloads://mcuboot_opensource_rt1170.elf
+- boot:
+    namespace: cleanup
+    timeout:
+      minutes: 10
+    method: minimal
+- test:
+    namespace: cleanup
+    monitors:
+    - name: "basic_test"
+      start: "---------STARTING DEMO---------"
+      end: "Halting execution"
+      pattern: _unused_
+
+- deploy:
+    namespace: testrun
+    connection-namespace: cleanup
     timeout:
       minutes: 15
     to: downloads
@@ -45,6 +95,8 @@ actions:
         - echo "TMPFILES=mcuboot_opensource_1060.elf" >> flash.settings
         - ls -l $IMAGE_PATH
 - deploy:
+    namespace: testrun
+    connection-namespace: cleanup
     timeout:
       minutes: 7
     to: flasher
@@ -56,10 +108,14 @@ actions:
       mcuboot:
         url: downloads://mcuboot_opensource_rt1060.elf
 - boot:
+    namespace: testrun
+    connection-namespace: cleanup
     timeout:
       minutes: 12
     method: minimal
 - test:
+    namespace: testrun
+    connection-namespace: cleanup
     monitors:
     - name: "boot_test"
       start: "---------STARTING DEMO---------"

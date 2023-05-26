@@ -1,12 +1,13 @@
-device_type: mimxrt1170_cm7
-job_name: basic_mcu_ota_se050
+device_type: mimxrt1060
+job_name: basic_mcu_ota_se05x
+
 timeouts:
   job:
-    minutes: 15
+    minutes: 20
   action:
-    minutes: 5
+    minutes: 10
   connection:
-    minutes: 2
+    minutes: 5
 priority: medium
 visibility: public
 metadata:
@@ -26,11 +27,11 @@ actions:
     to: downloads
     images:
       build:
-        url: https://s.lava.infra.foundries.io/el2go_cleanup_rt1170.signed.bin
+        url: https://s.lava.infra.foundries.io/el2go_cleanup_rt1060.signed.bin
         headers:
           Authorization: LAVA_BASIC_AUTH
       mcuboot:
-        url: https://s.lava.infra.foundries.io/mcuboot_opensource_rt1170.elf
+        url: https://s.lava.infra.foundries.io/mcuboot_opensource_rt1060.elf
         headers:
           Authorization: LAVA_BASIC_AUTH
     postprocess:
@@ -39,8 +40,8 @@ actions:
         steps:
         - export IMAGE_PATH=$PWD
         - ls -l "${IMAGE_PATH}"
-        - echo "DEVICE_TYPE=mimxrt1170_cm7" >> flash.settings
-        - echo "TMPFILES=mcuboot_opensource_rt1170.elf" >> flash.settings
+        - echo "DEVICE_TYPE=mimxrt1060" >> flash.settings
+        - echo "TMPFILES=mcuboot_opensource_rt1060.elf" >> flash.settings
         - ls -l $IMAGE_PATH
 - deploy:
     namespace: cleanup
@@ -49,7 +50,7 @@ actions:
     to: flasher
     images:
       image:
-        url: downloads://el2go_cleanup_rt1170.signed.bin
+        url: downloads://el2go_cleanup_rt1060.signed.bin
       settings:
         url: downloads://flash.settings
       mcuboot:
@@ -67,7 +68,6 @@ actions:
       end: "Halting execution"
       pattern: _unused_
 
-
 - deploy:
     namespace: testrun
     connection-namespace: cleanup
@@ -80,7 +80,7 @@ actions:
         headers:
           Authorization: GITHUB_AUTH
       mcuboot:
-        url: https://s.lava.infra.foundries.io/mcuboot_opensource_rt1170.elf
+        url: https://s.lava.infra.foundries.io/mcuboot_opensource_rt1060.elf
         headers:
           Authorization: LAVA_BASIC_AUTH
     postprocess:
@@ -91,33 +91,33 @@ actions:
         - ls -l "${IMAGE_PATH}"
         - unzip "zip"
         - ls -l "${IMAGE_PATH}"
-        - echo "DEVICE_TYPE=mimxrt1170_cm7" >> flash.settings
-        - echo "TMPFILES=mcuboot_opensource_rt1170.elf" >> flash.settings
+        - echo "DEVICE_TYPE=mimxrt1060" >> flash.settings
+        - echo "TMPFILES=mcuboot_opensource_1060.elf" >> flash.settings
         - ls -l $IMAGE_PATH
 - deploy:
     namespace: testrun
     connection-namespace: cleanup
     timeout:
-      minutes: 5
+      minutes: 7
     to: flasher
     images:
       image:
-        url: downloads://ota_demo.SE05X_rt1170.1001.signed.bin
+        url: downloads://ota_demo.SE05X_EL2GO_rt1060.1001.signed.bin
       settings:
         url: downloads://flash.settings
       mcuboot:
-        url: downloads://mcuboot_opensource_rt1170.elf
+        url: downloads://mcuboot_opensource_rt1060.elf
 - boot:
     namespace: testrun
     connection-namespace: cleanup
     timeout:
-      minutes: 10
+      minutes: 12
     method: minimal
 - test:
     namespace: testrun
     connection-namespace: cleanup
     monitors:
-    - name: "basic_test"
+    - name: "boot_test"
       start: "---------STARTING DEMO---------"
       end: "TEST CI_TEST_3_v1003 ROLLBACK=1"
-      pattern: _unused_ 
+      pattern: _unused_

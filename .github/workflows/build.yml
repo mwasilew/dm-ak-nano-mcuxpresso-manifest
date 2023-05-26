@@ -61,7 +61,7 @@ jobs:
               TAG_PREFIX="SE05X_"
           fi
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
-              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+              TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
@@ -84,7 +84,7 @@ jobs:
               TAG_PREFIX="SE05X_"
           fi
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
-              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+              TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
@@ -107,7 +107,7 @@ jobs:
               TAG_PREFIX="SE05X_"
           fi
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
-              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+              TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
@@ -131,7 +131,7 @@ jobs:
               TAG_PREFIX="SE05X_"
           fi
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
-              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+              TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
@@ -153,7 +153,7 @@ jobs:
               TAG_PREFIX="SE05X_"
           fi
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
-              TAG_PREFIX="${TAG_PREFIX}_EL2GO_"
+              TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
           export _BUILD_HWID=$(echo "print(\"${AKNANO_BOARD_MODEL}\".upper())" | python3)
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
