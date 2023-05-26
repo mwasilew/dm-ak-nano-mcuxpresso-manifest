@@ -135,6 +135,8 @@ jobs:
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
           rm flexspi_nor_release/ota_demo.bin
   upload:
+    runs-on: ubuntu-latest
+    container: miloszwasilewski/mcu_lava:latest
     steps:
       - name: Create and upload Targets
         working-directory: ./
