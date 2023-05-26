@@ -41,13 +41,6 @@ jobs:
           echo "AKNANO_MANIFEST_COMMIT_ID=${MANIFEST_HASH}" >> $GITHUB_ENV
           echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
           echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
-          # make changes for SE050
-          #if [ "${AKNANO_ENABLE_SE05X}" = "1" ]; then
-          #    CURRENT_PATH=$PWD
-          #    ls
-          #    cd ../foundriesio/dm-ak-nano-mcuxpresso
-          #    patch -p1 < "${CURRENT_PATH}/se050.patch"
-          #fi
 
       - name: Build ci-test-1
         env:
@@ -159,11 +152,9 @@ jobs:
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           fioctl version
-          #fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
           fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
-          #fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets list --raw
 
       - name: Add debug files
         working-directory: ./
