@@ -2,7 +2,7 @@ device_type: mimxrt1170_cm7
 job_name: basic_mcu_ota_se050
 timeouts:
   job:
-    minutes: 15
+    minutes: 20
   action:
     minutes: 5
   connection:
@@ -118,6 +118,8 @@ actions:
       minutes: 10
     method: minimal
 - test:
+    timeout:
+      minutes: 10
     namespace: testrun
     connection-namespace: cleanup
     monitors:

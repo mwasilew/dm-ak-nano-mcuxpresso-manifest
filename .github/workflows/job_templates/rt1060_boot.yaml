@@ -63,9 +63,11 @@ actions:
     name: remove_from_denied
 - boot:
     timeout:
-      minutes: 12
+      minutes: 10
     method: minimal
 - test:
+    timeout:
+      minutes: 10
     monitors:
     - name: "boot_test"
       start: "---------STARTING DEMO---------"

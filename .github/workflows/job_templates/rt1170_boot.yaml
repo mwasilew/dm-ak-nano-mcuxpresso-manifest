@@ -2,7 +2,7 @@ device_type: mimxrt1170_cm7
 job_name: basic_mcu_ota_standard
 timeouts:
   job:
-    minutes: 15
+    minutes: 20
   action:
     minutes: 5
   connection:
@@ -63,8 +63,10 @@ actions:
       minutes: 10
     method: minimal
 - test:
+    timeout:
+      minutes: 10
     monitors:
     - name: "basic_test"
       start: "---------STARTING DEMO---------"
       end: "TEST CI_TEST_3_v1003 ROLLBACK=1"
-      pattern: _unused_ 
+      pattern: _unused_

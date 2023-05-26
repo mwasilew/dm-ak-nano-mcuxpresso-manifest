@@ -118,6 +118,8 @@ actions:
       minutes: 10
     method: minimal
 - test:
+    timeout:
+      minutes: 10
     namespace: testrun
     connection-namespace: cleanup
     monitors:
