@@ -41,12 +41,13 @@ jobs:
           echo "AKNANO_MANIFEST_COMMIT_ID=${MANIFEST_HASH}" >> $GITHUB_ENV
           echo "${PROVISIONING_SECRET}" > ../foundriesio/aktualizr-nano/src/provisioning/aknano_provisioning_secret.h
           echo "${SECRET}" > ../foundriesio/aktualizr-nano/src/aknano_secret.h
+          echo "OTA_REVISION_BASE=${GITHUB_RUN_ID:0:6}" >> $GITHUB_ENV
 
       - name: Build ci-test-1
         env:
           DEFAULT_TAG: "ci-test-1"
           AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_1"
-          ota_revision: "1001"
+          ota_revision_seq: "1"
         working-directory: ./
         run: |
           export TAG_PREFIX=""
@@ -56,6 +57,7 @@ jobs:
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
               TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
+          export ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}${ota_revision_seq}"
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
@@ -69,7 +71,7 @@ jobs:
         env:
           DEFAULT_TAG: "ci-test-2"
           AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_2"
-          ota_revision: "1002"
+          ota_revision_seq: "2"
         working-directory: ./
         run: |
           export TAG_PREFIX=""
@@ -79,6 +81,7 @@ jobs:
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
               TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
+          export ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}${ota_revision_seq}"
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
@@ -92,7 +95,7 @@ jobs:
         env:
           DEFAULT_TAG: "ci-test-3"
           AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_4"
-          ota_revision: "1003"
+          ota_revision_seq: "3"
         working-directory: ./
         run: |
           export TAG_PREFIX=""
@@ -102,6 +105,7 @@ jobs:
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
               TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
+          export ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}${ota_revision_seq}"
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
@@ -116,7 +120,7 @@ jobs:
           DEFAULT_TAG: "ci-test-4"
           AKNANO_TEST_MESSAGE_PREAMBLE: "TEST CI_TEST_4"
           AKNANO_TEST_ROLLBACK: 1
-          ota_revision: "1004"
+          ota_revision: "4"
         working-directory: ./
         run: |
           export TAG_PREFIX=""
@@ -126,6 +130,7 @@ jobs:
           if [ "${AKNANO_ENABLE_EL2GO}" = "1" ]; then
               TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           fi
+          export ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}${ota_revision_seq}"
           export AKNANO_DEFAULT_TAG="${TAG_PREFIX}${GITHUB_RUN_ID}-${DEFAULT_TAG}"
           export signed_file="flexspi_nor_release/ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.${ota_revision}.signed.bin"
           cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc
@@ -158,6 +163,7 @@ jobs:
         run: |
           fioctl version
 
+          OTA_REVISION_BASE=${GITHUB_RUN_ID:0:6}
           export AKNANO_BOARD_MODEL=rt1060
           export _BUILD_HWID=$(echo "print(\"${AKNANO_BOARD_MODEL}\".upper())" | python3)
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
@@ -166,21 +172,25 @@ jobs:
           export TAG_PREFIX=""
           AKNANO_ENABLE_SE05X=0
           AKNANO_ENABLE_EL2GO=0
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${ota_revision}2" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${ota_revision}3" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${ota_revision}4" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
           TAG_PREFIX="SE05X_"
           AKNANO_ENABLE_SE05X=1
           AKNANO_ENABLE_EL2GO=0
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${ota_revision}2" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${ota_revision}3" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${ota_revision}4" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
           TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           AKNANO_ENABLE_SE05X=1
           AKNANO_ENABLE_EL2GO=1
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${ota_revision}2" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${ota_revision}3" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${ota_revision}4" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+
           export AKNANO_BOARD_MODEL=rt1170
           export _BUILD_HWID=$(echo "print(\"${AKNANO_BOARD_MODEL}\".upper())" | python3)
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
@@ -188,18 +198,21 @@ jobs:
           export TAG_PREFIX=""
           AKNANO_ENABLE_SE05X=0
           AKNANO_ENABLE_EL2GO=0
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${ota_revision}2" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${ota_revision}3" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${ota_revision}4" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
           TAG_PREFIX="SE05X_"
           AKNANO_ENABLE_SE05X=1
           AKNANO_ENABLE_EL2GO=0
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${ota_revision}2" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${ota_revision}3" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${ota_revision}4" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
           TAG_PREFIX="${TAG_PREFIX}EL2GO_"
           AKNANO_ENABLE_SE05X=1
           AKNANO_ENABLE_EL2GO=1
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1002" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1003" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
-          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${GITHUB_RUN_ID}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}1004" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
+          ota_revision="${OTA_REVISION_BASE}${AKNANO_ENABLE_SE05X}${AKNANO_ENABLE_EL2GO}"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1002.signed.bin" "${ota_revision}2" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-1"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1003.signed.bin" "${ota_revision}3" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-2"
+          fioctl --verbose --token "${FIOCTL_TOKEN}" --factory "${FACTORY}" targets create-file "ota_demo.${TAG_PREFIX}${AKNANO_BOARD_MODEL}.1004.signed.bin" "${ota_revision}4" "${BUILD_HWID}" "${TAG_PREFIX}${GITHUB_RUN_ID}-ci-test-3"
