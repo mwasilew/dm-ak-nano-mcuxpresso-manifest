@@ -134,11 +134,22 @@ jobs:
           imgtool version
           imgtool sign --key /home/root-rsa-2048.pem --align 4 --header-size 0x400 --pad-header --slot-size 0x200000 --version 1.0.0+${ota_revision} flexspi_nor_release/ota_demo.bin ${signed_file}
           rm flexspi_nor_release/ota_demo.bin
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: flex-nor-release
+          path: /__w/dm-ak-nano-mcuxpresso-manifest/foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release/*
   upload:
     needs: build
     runs-on: ubuntu-latest
     container: miloszwasilewski/mcu_lava:latest
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: flex-nor-release
+
       - name: Create and upload Targets
         working-directory: ./
         env:
@@ -147,7 +158,6 @@ jobs:
         run: |
           fioctl version
 
-          cd ../foundriesio/dm-ak-nano-mcuxpresso/armgcc/flexspi_nor_release
           export _BUILD_HWID=$(echo "print(\"${AKNANO_BOARD_MODEL}\".upper())" | python3)
           export BUILD_HWID="MIMX${_BUILD_HWID}-EVK"
 
