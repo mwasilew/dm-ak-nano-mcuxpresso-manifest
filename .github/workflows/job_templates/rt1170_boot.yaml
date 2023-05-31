@@ -10,14 +10,14 @@ timeouts:
 priority: medium
 visibility: public
 metadata:
-  CI_TEST_1_v1001/RUNNING_FROM_SLOT=: "1"
-  CI_TEST_1_v1001/CHECKIN: "successful"
-  CI_TEST_2_v1002/RUNNING_FROM_SLOT=: "2"
-  CI_TEST_2_v1002/CHECKIN: "successful"
-  CI_TEST_3_v1003/RUNNING_FROM_SLOT=: "1"
-  CI_TEST_4_v1004/ROLLBACK_TEST=: "1"
-  CI_TEST_3_v1003/CHECKIN: "successful"
-  CI_TEST_3_v1003/ROLLBACK: "1"
+  CI_TEST_1/RUNNING_FROM_SLOT=: "1"
+  CI_TEST_1/CHECKIN: "successful"
+  CI_TEST_2/RUNNING_FROM_SLOT=: "2"
+  CI_TEST_2/CHECKIN: "successful"
+  CI_TEST_3/RUNNING_FROM_SLOT=: "1"
+  CI_TEST_4/ROLLBACK_TEST=: "1"
+  CI_TEST_3/CHECKIN: "successful"
+  CI_TEST_3/ROLLBACK: "1"
 actions:
 - deploy:
     timeout:
