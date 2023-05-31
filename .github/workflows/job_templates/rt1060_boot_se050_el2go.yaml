@@ -128,5 +128,5 @@ actions:
     monitors:
     - name: "boot_test"
       start: "---------STARTING DEMO---------"
-      end: "TEST CI_TEST_3_v{OTA_REVISION_BASE}113 ROLLBACK=1"
+      end: "REVISION=v{OTA_REVISION_BASE}113 ROLLBACK=1"
       pattern: _unused_
