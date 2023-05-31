@@ -96,6 +96,9 @@ def main():
     parser.add_argument("--qa-patch-source",
             default=os.environ.get("QA_PATCH_SOURCE"),
             required=False)
+    parser.add_argument("--gh-calling-action",
+            default=os.envirion.get("BUILD_RUN_ID"),
+            required=False)
     parser.add_argument("--gh-artifacts-url",
             default=os.environ.get("GITHUB_ARTIFACTS_URL"),
             required=False)
@@ -155,7 +158,7 @@ def main():
         definition = jobfile.read()
     data = {
         "backend": args.qa_backend,
-        "definition": definition.format_map(SafeDict(BUILD_URL=artifact_url))
+        "definition": definition.format_map(SafeDict(BUILD_URL=artifact_url, OTA_REVISION_BASE=args.gh_calling_action[:6]))
     }
 
     response = requests.post(URL, data=data, headers=headers)

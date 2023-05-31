@@ -49,7 +49,7 @@ actions:
     to: flasher
     images:
       image:
-        url: downloads://ota_demo.rt1170.1001.signed.bin
+        url: downloads://ota_demo.rt1170.{OTA_REVISION_BASE}001.signed.bin
       settings:
         url: downloads://flash.settings
       mcuboot:

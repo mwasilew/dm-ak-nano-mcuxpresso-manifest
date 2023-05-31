@@ -108,7 +108,7 @@ actions:
     to: flasher
     images:
       image:
-        url: downloads://ota_demo.SE05X_rt1170.1001.signed.bin
+        url: downloads://ota_demo.SE05X_rt1170.{OTA_REVISION_BASE}101.signed.bin
       settings:
         url: downloads://flash.settings
       mcuboot:
