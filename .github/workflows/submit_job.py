@@ -97,7 +97,7 @@ def main():
             default=os.environ.get("QA_PATCH_SOURCE"),
             required=False)
     parser.add_argument("--gh-calling-action",
-            default=os.envirion.get("BUILD_RUN_ID"),
+            default=os.environ.get("BUILD_RUN_ID"),
             required=False)
     parser.add_argument("--gh-artifacts-url",
             default=os.environ.get("GITHUB_ARTIFACTS_URL"),
