@@ -1,5 +1,5 @@
 device_type: mimxrt1060
-job_name: basic_mcu_ota_se05x
+job_name: basic_mcu_ota_se05x_el2go
 
 timeouts:
   job:
