@@ -54,7 +54,7 @@ actions:
       settings:
         url: downloads://flash.settings
       mcuboot:
-        url: downloads://mcuboot_opensource_rt1170.elf
+        url: downloads://mcuboot_opensource_rt1060.elf
 - boot:
     namespace: cleanup
     timeout:

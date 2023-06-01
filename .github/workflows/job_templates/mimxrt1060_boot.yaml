@@ -44,7 +44,7 @@ actions:
         - unzip "zip"
         - ls -l "${IMAGE_PATH}"
         - echo "DEVICE_TYPE=mimxrt1060" >> flash.settings
-        - echo "TMPFILES=mcuboot_opensource_1060.elf" >> flash.settings
+        - echo "TMPFILES=mcuboot_opensource_rt1060.elf" >> flash.settings
         - ls -l $IMAGE_PATH
 - deploy:
     timeout:
