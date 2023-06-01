@@ -6,6 +6,7 @@ import requests
 import sys
 import logging
 import time
+import yaml
 
 from urllib.parse import urlparse
 
@@ -114,9 +115,6 @@ def main():
     TEAM = args.qa_team
     PROJECT = args.qa_project
     VERSION = args.qa_version
-    ENVIRONMENT = args.job_filename.split("_", 1)[0]
-
-    URL = "%s/api/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
 
     patch_id = None
     if args.commit_id and args.commit_repository and args.commit_repository_user and args.qa_patch_source:
@@ -152,13 +150,16 @@ def main():
         artifact_url = artifact_list["artifacts"][0]["archive_download_url"]
 
     definition = None
+    ENVIRONMENT = None
     with open(args.job_filename, "r") as jobfile:
         definition = jobfile.read()
+        ENVIRONMENT = yaml.safe_load(definition)['device_type']
     data = {
         "backend": args.qa_backend,
         "definition": definition.format_map(SafeDict(BUILD_URL=artifact_url, OTA_REVISION_BASE=args.gh_calling_action[:6]))
     }
 
+    URL = "%s/api/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
     response = requests.post(URL, data=data, headers=headers)
     if response.status_code == 201:
         qa_job_id = response.text
