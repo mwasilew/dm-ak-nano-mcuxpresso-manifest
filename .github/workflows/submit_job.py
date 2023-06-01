@@ -78,8 +78,6 @@ def main():
             required=True)
     parser.add_argument("--qa-version",
             required=True)
-    parser.add_argument("--qa-environment",
-            required=True)
     parser.add_argument("--qa-backend",
             required=True)
     parser.add_argument("--job-filename",
@@ -116,7 +114,7 @@ def main():
     TEAM = args.qa_team
     PROJECT = args.qa_project
     VERSION = args.qa_version
-    ENVIRONMENT = args.qa_environment
+    ENVIRONMENT = args.job_filename.split("_", 1)[0]
 
     URL = "%s/api/submitjob/%s/%s/%s/%s" % (QA_SERVER, TEAM, PROJECT, VERSION, ENVIRONMENT)
 

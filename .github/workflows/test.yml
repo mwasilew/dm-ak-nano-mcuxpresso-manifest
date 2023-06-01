@@ -44,7 +44,6 @@ jobs:
                 --qa-team "~milosz" \
                 --qa-project mcu \
                 --qa-version "${GITHUB_SHA}" \
-                --qa-environment mimxrt1170_cm7 \
                 --qa-backend lava.infra.foundries.io \
                 --job-filename "${FILE}" \
                 --qa-patch-source fio-github \
