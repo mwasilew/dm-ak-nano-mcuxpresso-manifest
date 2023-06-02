@@ -13,12 +13,12 @@ tags:
 priority: medium
 visibility: public
 metadata:
-  CI_TEST_1/RUNNING_FROM_SLOT=: "1"
+  CI_TEST_1/RUNNING_FROM_SLOT: "1"
   CI_TEST_1/CHECKIN: "successful"
-  CI_TEST_2/RUNNING_FROM_SLOT=: "2"
+  CI_TEST_2/RUNNING_FROM_SLOT: "2"
   CI_TEST_2/CHECKIN: "successful"
-  CI_TEST_3/RUNNING_FROM_SLOT=: "1"
-  CI_TEST_4/ROLLBACK_TEST=: "1"
+  CI_TEST_3/RUNNING_FROM_SLOT: "1"
+  CI_TEST_4/ROLLBACK_TEST: "1"
   CI_TEST_3/CHECKIN: "successful"
   CI_TEST_3/ROLLBACK: "1"
 actions:
