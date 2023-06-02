@@ -41,8 +41,8 @@ jobs:
           do
             python3 .github/workflows/submit_job.py \
                 --qa-server https://qa-reports.foundries.io/api \
-                --qa-team "~milosz" \
-                --qa-project mcu \
+                --qa-team lmp \
+                --qa-project lmp-ci-mcu \
                 --qa-version "${GITHUB_SHA}" \
                 --qa-backend lava.infra.foundries.io \
                 --job-filename "${FILE}" \
