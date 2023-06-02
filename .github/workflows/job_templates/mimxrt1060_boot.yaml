@@ -10,6 +10,8 @@ timeouts:
     minutes: 10
   connection:
     minutes: 5
+tags:
+  - "nuc-worker-11"
 priority: medium
 visibility: public
 metadata:
